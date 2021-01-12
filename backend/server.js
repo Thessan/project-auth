@@ -53,6 +53,11 @@ const authenticateUser = async (request, response, next) => {
 app.use(cors())
 app.use(bodyParser.json())
 
+app.get('/', async (request, response) => {
+  response.send('Welcome')
+})
+
+
 // Sign up
 app.post('/users', async (request, response) => {
   try {
@@ -66,7 +71,7 @@ app.post('/users', async (request, response) => {
     response.status(200).json({ userID: user._id, accessToken: user.accessToken });
   }
   catch (err) {
-    response. status(400).json({ message: 'Sorry, could not create user', errors: err});
+    response.status(400).json({ message: 'Sorry, could not create user', errors: err});
   }
 })
 
