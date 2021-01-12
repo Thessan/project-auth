@@ -22,7 +22,7 @@ const User = mongoose.model('User', {
   password: {
     type: String,
     required: true,
-    minlength: 5
+    minlength: [5, "Password has to be longer than 4 characters!"]
   },
   accessToken: {
     type: String,
@@ -90,6 +90,9 @@ app.post('/tweets', async (request, response) => {
 
 });
 
+app.get('users/:id', async (request, response) => {
+  response.status(501).send();
+});
 
 // Start the server
 app.listen(port, () => {
