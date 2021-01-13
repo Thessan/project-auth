@@ -59,8 +59,10 @@ app.get('/', async (request, response) => {
 
 
 // Sign up
+//register the user -> we put it in the database
 app.post('/users', async (request, response) => {
   try {
+    //validate pw before hashing it here?
     const { username, email, password } = request.body;
     const salt = bcrypt.genSaltSync();
     const user = await new User ({
@@ -76,6 +78,7 @@ app.post('/users', async (request, response) => {
 })
 
 // Login
+//we use already registered info and get access token
 app.post('/sessions', async (request, response) => {
   try {
     const { username, email, password } = request.body;

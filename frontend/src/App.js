@@ -1,42 +1,46 @@
-import React from 'react';
+import React from 'react'
 import styled from 'styled-components'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 // import ReactDOM from 'react-dom';
-/* import Button from '@material-ui/core/Button'; */
 
-import {SignupButton} from './components/SignupButton'
-import {SignupForm} from "./components/SignupForm"
+import {SignupForm} from './components/SignupForm'
+import {LoginHere} from './components/LoginHere'
+import {LoginForm} from './components/LoginForm'
+import {GoBack} from './components/GoBack'
 
 export const App = () => {
   return (
-    <Wrapper>
-    <FormContainer>
-      <SignupForm />
-    </FormContainer>
+      <BrowserRouter>
+        <Switch>
+          <Wrapper>
+              <Route path="/" exact>
+                  <SignupForm />
+                    <LoginHere />
+              </Route>
 
-    <ButtonContainer>
-      <SignupButton />
-    </ButtonContainer>
-    </Wrapper>
+              <Route path="/sessions" exact>
+                <LoginForm />
+                <GoBack />
+              </Route>
+          </Wrapper>
+        </Switch>
+      </BrowserRouter>
   )
 }
 
 const Wrapper = styled.div `
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
-margin: auto;
-position: absolute;
-top: 0;
-left: 0;
-right: 0;
-bottom: 0;
-`
-
-const FormContainer = styled.div`
-
-`
-
-const ButtonContainer = styled.div`
-
-`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 400px;
+  height: 500px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: solid 8px gainsboro;
+  background-color: white;
+  `

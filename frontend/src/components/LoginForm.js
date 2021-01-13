@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import styled from 'styled-components'
 
-import {SignupButton} from './SignupButton'
+import {LoginButton} from './LoginButton'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -14,30 +14,25 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export const SignupForm = () => {
+export const LoginForm = () => {
     const classes = useStyles();
     const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleUsernameChange = (event) => {
     setUsername(event.target.value);
 };
 
-    const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-    };
-
     const handlePasswordChange = (event) => {
     setPassword(event.target.value);
     };
 
     return (
-        <form className={classes.root} noValidate autoComplete="off">
-            <FormContainer>
-            <WelcomeContainer>
-                Welcome!
-            </WelcomeContainer>
+    <form className={classes.root} noValidate autoComplete="off">
+        <LoginContainer>
+        <WelcomeContainer>
+            Please login
+        </WelcomeContainer>
         <>
             <TextField
             id="Username"
@@ -45,17 +40,6 @@ export const SignupForm = () => {
             value={username}
             onChange={handleUsernameChange}
             variant="outlined"
-            />
-        </>
-
-        <>
-            <TextField
-            id="Email"
-            label="Email"
-            value={email}
-            onChange={handleEmailChange}
-            variant="outlined"
-            type="email" // to make sure it is an email address the user types in
             />
         </>
         
@@ -69,13 +53,13 @@ export const SignupForm = () => {
             type="password" // to hide the input while typing
             />
         </>
-        <SignupButton />
-        </FormContainer>
+            <LoginButton />
+        </LoginContainer>
     </form>
     );
 }
 
-const FormContainer = styled.div`
+const LoginContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
