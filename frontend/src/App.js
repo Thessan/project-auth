@@ -1,12 +1,21 @@
-import React from 'react'
+import React, {useState} from 'react'
+import { Provider } from 'react-redux'
 import styled from 'styled-components'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 // import ReactDOM from 'react-dom';
 
 import {SignupForm} from './components/SignupForm'
 import {LoginHere} from './components/LoginHere'
 import {LoginForm} from './components/LoginForm'
 import {GoBack} from './components/GoBack'
+
+const URL = 'http://thessan-rebeka-auth-api.herokuapp.com/users'
+
+const reducer = combineReducers({ user: user.reducer });
+
+const store = configureStore({ reducer });
+
 
 export const App = () => {
   return (
@@ -27,7 +36,6 @@ export const App = () => {
       </BrowserRouter>
   )
 }
-
 const Wrapper = styled.div `
   display: flex;
   justify-content: center;

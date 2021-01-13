@@ -9,7 +9,7 @@ const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/authAPI"
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
 mongoose.Promise = Promise
 
-const User = mongoose.model('User', {
+const userSchema = new mongoose.Schema({
   username: {
     type: String,
     unique: true,
@@ -22,7 +22,8 @@ const User = mongoose.model('User', {
   password: {
     type: String,
     required: true,
-    minlength: [5, "Password has to be longer than 4 characters!"]
+    minlength: 5,
+    maxlength: 12
   },
   accessToken: {
     type: String,
@@ -30,6 +31,21 @@ const User = mongoose.model('User', {
     unique: true
   }
 })
+
+userSchema.pre("save", async function(next) {
+  const user = this;
+
+if(!user.isModified('password')){
+  return next();
+}
+
+const salt = bcrypt.genSaltSync();
+user.password = bcrypt.hashSync(user.password, salt);
+
+next();
+})
+
+const User = mongoose.model('User', userSchema);
 
 
 // Defines the port the app will run on. Defaults to 8080, but can be 
@@ -62,13 +78,11 @@ app.get('/', async (request, response) => {
 //register the user -> we put it in the database
 app.post('/users', async (request, response) => {
   try {
-    //validate pw before hashing it here?
     const { username, email, password } = request.body;
-    const salt = bcrypt.genSaltSync();
     const user = await new User ({
       username,
       email,
-      password: bcrypt.hashSync(password, salt),
+      password,
     }).save();
     response.status(200).json({ userID: user._id, accessToken: user.accessToken });
   }
@@ -81,12 +95,12 @@ app.post('/users', async (request, response) => {
 //we use already registered info and get access token
 app.post('/sessions', async (request, response) => {
   try {
-    const { username, email, password } = request.body;
-    const user = await User.findOne({ username, email });
+    const { username, password } = request.body;
+    const user = await User.findOne({ username });
     if (user && bcrypt.compareSync(password, user.password)) {
       response.status(200).json({ userId: user._id, accessToken: user.accessToken }); //Success
     } else {
-      throw 'Incorrect username, email or password'; // if user is signed up but login details are incorrect
+      throw 'Incorrect username or password'; // if user is signed up but login details are incorrect
     }
   } catch (err) {
     response.status(404).json({ error: 'Sorry, user does not exist' }); // if a user that's not signed up is trying to login

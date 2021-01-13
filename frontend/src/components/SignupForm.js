@@ -5,6 +5,9 @@ import styled from 'styled-components'
 
 import {SignupButton} from './SignupButton'
 
+const SIGNUP_URL = 'http://thessan-rebeka-auth-api.herokuapp.com/users'
+const LOGIN_URL = 'http://thessan-rebeka-auth-api.herokuapp.com/sessions'
+
 const useStyles = makeStyles((theme) => ({
     root: {
         '& .MuiTextField-root': {
@@ -55,7 +58,7 @@ export const SignupForm = () => {
             value={email}
             onChange={handleEmailChange}
             variant="outlined"
-            type="email" // to make sure it is an email address the user types in
+            type="email" // DOES NOT WORK!
             />
         </>
         
