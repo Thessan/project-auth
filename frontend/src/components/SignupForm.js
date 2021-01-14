@@ -70,7 +70,6 @@ export const SignupForm = () => {
         .then((json) => handleSignupSuccess(json))
         .catch((err) => handleSignupFailed(err));
         console.log("Signup function performed");
-
     }
 
     return (

@@ -79,7 +79,7 @@ app.get('/', async (request, response) => {
 app.post('/users', async (request, response) => {
   try {
     const { username, email, password } = request.body;
-    const user = await new User ({
+    const user = await new User({
       username,
       email,
       password,

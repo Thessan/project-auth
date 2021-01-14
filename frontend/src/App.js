@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { Provider } from 'react-redux'
 import styled from 'styled-components'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
@@ -11,29 +11,12 @@ import {LoginForm} from './components/LoginForm'
 import {GoBack} from './components/GoBack'
 import {user} from './reducers/user'
 
-const URL = 'http://thessan-rebeka-auth-api.herokuapp.com/users'
-
 const reducer = combineReducers({ user: user.reducer });
 
 const store = configureStore({ reducer });
 
 export const App = () => {
-
-  //when do we use set?
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  fetch(URL, {
-    method: "POST",
-    body: JSON.stringify({ username, email, password }),
-    headers: { "Content-Type": "application/json" },
-  })
-  .then((response) => response.json())
-  .then((json) => console.log(json))
-  .catch((err) => console.log("error:", err));
   
-
   return (
     <Provider store={store}>
       <BrowserRouter>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import styled from 'styled-components'
@@ -21,8 +21,9 @@ const useStyles = makeStyles((theme) => ({
 export const LoginForm = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [usernameLogin, setUsernameLogin] = useState('');
-    const [passwordLogin, setPasswordLogin] = useState('');
+    const [username, setUsername] = useState('');  // CHANGED BACK TO SAME NAMING AS IN SIGNUP FORM, WOULD NOT WORK OTHERWISE
+    const [password, setPassword] = useState('');
+    const loginError = useSelector((store) => store.user.loginErrorMessage); // to display error message when login fail
 
     const handleLoginSuccess = (loginResponse) => {
         dispatch(
@@ -34,15 +35,15 @@ export const LoginForm = () => {
     
     const handleLoginFailed = (loginFailed) => {
         dispatch(user.actions.setAccessToken({ accessToken: null }));
-        dispatch(user.actions.setStatusMessage({ statusMessage: loginFailed }));
+        dispatch(user.actions.setLoginErrorMessage({ loginErrorMessage: loginFailed }));
     };
 
     const onUsernameLoginChange = (event) => {
-    setUsernameLogin(event.target.value);
+    setUsername(event.target.value);
     };
 
     const onPasswordLoginChange = (event) => {
-    setPasswordLogin(event.target.value);
+    setPassword(event.target.value);
     };
 
     //fetch on login
@@ -51,7 +52,7 @@ export const LoginForm = () => {
 
         fetch(LOGIN_URL, {
         method: 'POST',
-        body: JSON.stringify({ usernameLogin, passwordLogin }),
+        body: JSON.stringify({ username, password }),
         headers: { 'Content-Type': 'application/json' },
         })
         .then((response) => {
@@ -76,7 +77,7 @@ export const LoginForm = () => {
             <TextField
             id="UsernameLogin"
             label="Username"
-            value={usernameLogin}
+            value={username}
             onChange={onUsernameLoginChange}
             variant="outlined"
             />
@@ -86,13 +87,14 @@ export const LoginForm = () => {
             <TextField
             id="PasswordLogin"
             label="Password"
-            value={passwordLogin}    
+            value={password}    
             onChange={onPasswordLoginChange}
             variant="outlined"
             type="password" // to hide the input while typing
             />
         </>
             <LoginButton />
+            {loginError && <div className="div-error">{`${loginError}`}</div>}
         </LoginContainer>
     </form>
     );
