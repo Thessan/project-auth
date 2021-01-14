@@ -9,6 +9,7 @@ import {SignupForm} from './components/SignupForm'
 import {LoginHere} from './components/LoginHere'
 import {LoginForm} from './components/LoginForm'
 import {GoBack} from './components/GoBack'
+import {user} from './reducers/user'
 
 const URL = 'http://thessan-rebeka-auth-api.herokuapp.com/users'
 
@@ -16,9 +17,25 @@ const reducer = combineReducers({ user: user.reducer });
 
 const store = configureStore({ reducer });
 
-
 export const App = () => {
+
+  //when do we use set?
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  fetch(URL, {
+    method: "POST",
+    body: JSON.stringify({ username, email, password }),
+    headers: { "Content-Type": "application/json" },
+  })
+  .then((response) => response.json())
+  .then((json) => console.log(json))
+  .catch((err) => console.log("error:", err));
+  
+
   return (
+    <Provider store={store}>
       <BrowserRouter>
         <Switch>
           <Wrapper>
@@ -34,8 +51,10 @@ export const App = () => {
           </Wrapper>
         </Switch>
       </BrowserRouter>
+    </Provider>
   )
 }
+
 const Wrapper = styled.div `
   display: flex;
   justify-content: center;

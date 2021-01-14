@@ -9,7 +9,7 @@ const initialState = {
 };
 
 export const user = createSlice({
-    username: "user",
+    name: 'user',
     initialState: initialState,
     reducers: {
         setAccessToken: (state, action) => {

@@ -5,7 +5,10 @@ import styled from 'styled-components'
 export const SignupButton = () => {
     return (
         <ButtonContainer>
-            <Button variant="contained" color="primary">
+            <Button
+                variant="contained" 
+                color="primary"
+                type="submit">
                 Sign up!
             </Button>
         </ButtonContainer>

@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+import { useDispatch} from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import styled from 'styled-components'
 
+import {user} from '../reducers/user'
 import {SignupButton} from './SignupButton'
 
 const SIGNUP_URL = 'http://thessan-rebeka-auth-api.herokuapp.com/users'
-const LOGIN_URL = 'http://thessan-rebeka-auth-api.herokuapp.com/sessions'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,25 +19,62 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const SignupForm = () => {
+    const dispatch = useDispatch();
     const classes = useStyles();
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
-};
+    const handleSignupSuccess = (signupResponse) => {
+        dispatch(
+            user.actions.setAccessToken({ accessToken: signupResponse.accessToken })
+        );
+        dispatch(user.actions.setUserId({ userId: signupResponse.userId }));
+        dispatch(user.actions.setStatusMessage({ statusMessage: 'Signup success' }));
+    };
+    
+    const handleSignupFailed = (signupError) => {
+        dispatch(user.actions.setAccessToken({ accessToken: null }));
+        dispatch(user.actions.setStatusMessage({ statusMessage: signupError }));
+    };
 
-    const handleEmailChange = (event) => {
+    const onUsernameChange = (event) => {
+    setUsername(event.target.value);
+    };
+    console.log(`Username: ${username}`);
+
+    const onEmailChange = (event) => {
     setEmail(event.target.value);
     };
+    console.log(`Email: ${email}`);
 
-    const handlePasswordChange = (event) => {
+    const onPasswordChange = (event) => {
     setPassword(event.target.value);
     };
+    console.log(`Password: ${password}`);
+
+    const onSignup = (event) => {
+        event.preventDefault();
+
+        fetch(SIGNUP_URL, {
+        method: 'POST',
+        body: JSON.stringify({ username, email, password }),
+        headers: { 'Content-Type': 'application/json' },
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw 'Sorry, could not signup user';
+            }
+            return response.json();
+        })
+        .then((json) => handleSignupSuccess(json))
+        .catch((err) => handleSignupFailed(err));
+        console.log("Signup function performed");
+
+    }
 
     return (
-        <form className={classes.root} noValidate autoComplete="off">
+        <form className={classes.root} onSubmit={onSignup} noValidate autoComplete="off">
             <FormContainer>
             <WelcomeContainer>
                 Welcome!
@@ -46,7 +84,7 @@ export const SignupForm = () => {
             id="Username"
             label="Username"
             value={username}
-            onChange={handleUsernameChange}
+            onChange={onUsernameChange}
             variant="outlined"
             />
         </>
@@ -56,7 +94,7 @@ export const SignupForm = () => {
             id="Email"
             label="Email"
             value={email}
-            onChange={handleEmailChange}
+            onChange={onEmailChange}
             variant="outlined"
             type="email" // DOES NOT WORK!
             />
@@ -67,7 +105,7 @@ export const SignupForm = () => {
             id="Password"
             label="Password"
             value={password}    
-            onChange={handlePasswordChange}
+            onChange={onPasswordChange}
             variant="outlined"
             type="password" // to hide the input while typing
             />
