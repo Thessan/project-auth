@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useDispatch} from 'react-redux';
-import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react'
+import { useDispatch} from 'react-redux'
+import { makeStyles } from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
 
 import {user} from '../reducers/user'
@@ -24,6 +24,7 @@ export const SignupForm = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const validEmail = { pattern: "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$"}
 
     const handleSignupSuccess = (signupResponse) => {
         dispatch(
@@ -90,12 +91,13 @@ export const SignupForm = () => {
 
         <>
             <TextField
-            id="Email"
+            required id="standard-default"
             label="Email"
             value={email}
             onChange={onEmailChange}
             variant="outlined"
-            type="email" // DOES NOT WORK!
+            inputProps={validEmail}
+            helperText={email === "" ? 'e.g hello@hello.com' : ' '}
             />
         </>
         
@@ -107,6 +109,7 @@ export const SignupForm = () => {
             onChange={onPasswordChange}
             variant="outlined"
             type="password" // to hide the input while typing
+            helperText={password === "" ? 'min 5 characters, max 12' : ' '}
             />
         </>
         <SignupButton />

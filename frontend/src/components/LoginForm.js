@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { makeStyles } from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
 
 import {user} from '../reducers/user'
@@ -23,7 +23,7 @@ export const LoginForm = () => {
     const dispatch = useDispatch();
     const [username, setUsername] = useState('');  // CHANGED BACK TO SAME NAMING AS IN SIGNUP FORM, WOULD NOT WORK OTHERWISE
     const [password, setPassword] = useState('');
-    const loginError = useSelector((store) => store.user.loginErrorMessage); // to display error message when login fail
+    const loginError = useSelector((store) => store.user.loginErrorMessage); // to display error message when login fail. NOT WORKING ATM!
 
     const handleLoginSuccess = (loginResponse) => {
         dispatch(

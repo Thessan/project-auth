@@ -1,9 +1,8 @@
 import React from 'react'
-import { Provider } from 'react-redux'
 import styled from 'styled-components'
+import { Provider } from 'react-redux'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
-// import ReactDOM from 'react-dom';
+import { configureStore, combineReducers } from '@reduxjs/toolkit'
 
 import {SignupForm} from './components/SignupForm'
 import {LoginHere} from './components/LoginHere'
