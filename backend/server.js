@@ -6,7 +6,7 @@ import crypto from 'crypto'
 import bcrypt from 'bcrypt'
 import { isEmail } from 'validator'
 
-const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/test-authAPI"
+const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/authAPI"
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
 mongoose.Promise = Promise
 
