@@ -5,7 +5,6 @@ const initialState = {
     accessToken: null,
     userId: 0,
     statusMessage: "",
-    loginErrorMessage: ""
     },
 };
 
@@ -24,10 +23,6 @@ export const user = createSlice({
         setStatusMessage: (state, action) => {
             const { statusMessage } = action.payload;
             state.login.statusMessage = statusMessage;
-        },
-        setLoginErrorMessage: (state, action) => {
-            const { loginErrorMessage } = action.payload;
-            state.login.loginErrorMessage = loginErrorMessage;
         },
         logout: (state, action) => {
             state.login.userId = 0;

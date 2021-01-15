@@ -41,6 +41,7 @@ if(!user.isModified('password')){
   return next();
 }
 
+//Hash the password, after the validation of sign up details
 const salt = bcrypt.genSaltSync();
 user.password = bcrypt.hashSync(user.password, salt);
 
@@ -50,13 +51,11 @@ next();
 const User = mongoose.model('User', userSchema);
 
 
-// Defines the port the app will run on. Defaults to 8080, but can be 
-// overridden when starting the server. For example:
-//
-//   PORT=9000 npm start
+//Defines the port the app will run on.
 const port = process.env.PORT || 8080
 const app = express()
 
+//Function that expects the users access token and validate access to restricted endpoints
 const authenticateUser = async (request, response, next) => {
   const user = await User.findOne({accessToken: request.header('Authorization')});
   if (user) {
@@ -67,26 +66,28 @@ const authenticateUser = async (request, response, next) => {
   }
 }
 
-// Add middlewares to enable cors and json body parsing
+//Add middlewares to enable cors and json body parsing
 app.use(cors())
 app.use(bodyParser.json())
 
+//Main page
 app.get('/', async (request, response) => {
   response.send('Welcome')
 })
 
 
-// Sign up
-//register the user -> we put it in the database
+//Sign up
+//This endpoint register the user & put it in the database
 app.post('/users', async (request, response) => {
   try {
     const { username, email, password } = request.body;
-    const user = await new User({
+    //Const user creates a new user in the database and stores username, email and the encrypted password
+    const user = await new User({ 
       username,
       email,
       password,
     }).save();
-    response.status(200).json({ userID: user._id, accessToken: user.accessToken });
+    response.status(200).json({ userID: user._id, accessToken: user.accessToken }); //Sign up success
   }
   catch (err) {
     response.status(400).json({ message: 'Sorry, could not create user', errors: err});
@@ -94,7 +95,7 @@ app.post('/users', async (request, response) => {
 })
 
 // Login
-//we use already registered info and get access token
+//This endpoint expects username and password from already existing users
 app.post('/sessions', async (request, response) => {
   try {
     const { username, password } = request.body;
@@ -102,13 +103,14 @@ app.post('/sessions', async (request, response) => {
     if (user && bcrypt.compareSync(password, user.password)) {
       response.status(200).json({ userId: user._id, accessToken: user.accessToken }); //Success
     } else {
-      throw 'Incorrect username or password'; // if user is signed up but login details are incorrect
+      throw 'Incorrect username or password'; // if user that's signed up is trying to login but login details are incorrect
     }
   } catch (err) {
     response.status(404).json({ error: 'Sorry, user does not exist' }); // if a user that's not signed up is trying to login
   }
 });
 
+//Restricted endpoint, only accessible after user has logged in with valid username and access token
 app.post('/tweets', authenticateUser);
 app.post('/tweets', async (request, response) => {
 

@@ -21,9 +21,11 @@ const useStyles = makeStyles((theme) => ({
 export const LoginForm = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [username, setUsername] = useState('');  // CHANGED BACK TO SAME NAMING AS IN SIGNUP FORM, WOULD NOT WORK OTHERWISE
+    const [username, setUsername] = useState(''); 
     const [password, setPassword] = useState('');
-    const loginError = useSelector((store) => store.user.loginErrorMessage); // to display error message when login fail. NOT WORKING ATM!
+    const loginError = useSelector((store) => store.user.login.statusMessage);  //displays error message when login fails
+    console.log(`Login error: ${loginError}`)
+
 
     const handleLoginSuccess = (loginResponse) => {
         dispatch(
@@ -35,8 +37,8 @@ export const LoginForm = () => {
     
     const handleLoginFailed = (loginFailed) => {
         dispatch(user.actions.setAccessToken({ accessToken: null }));
-        dispatch(user.actions.setLoginErrorMessage({ loginErrorMessage: loginFailed }));
-    };
+        dispatch(user.actions.setStatusMessage({ statusMessage: loginFailed }));
+    }
 
     const onUsernameLoginChange = (event) => {
     setUsername(event.target.value);
@@ -94,11 +96,15 @@ export const LoginForm = () => {
             />
         </>
             <LoginButton />
-            {loginError && <div className="div-error">{`${loginError}`}</div>}
+            {loginError && <ErrorText>{loginError}</ErrorText>}
         </LoginContainer>
     </form>
     );
 }
+
+const ErrorText = styled.text`
+
+`
 
 const LoginContainer = styled.div`
     display: flex;
