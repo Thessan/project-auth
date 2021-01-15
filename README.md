@@ -1,13 +1,33 @@
 # Project Auth
 
-Replace this readme with your own information about your project.
 
-Start by briefly describing the assignment in a sentence or two. Keep it short and to the point.
 
-## The problem
+## :brain: Learning objectives
+- how to build a registration flow
+- how to handle authentication, both in the frontend and in the backend
+- how to build a frontend and backend at the same time
 
-Describe how you approached to problem, and what tools and techniques you used to solve it. How did you plan? What technologies did you use? If you had more time, what would be next?
+## :heavy_check_mark: Features
+Frontend:
+- a registration/sign up form which performs POST request to API endpoint for registration
+- login form and login endpoint, to authenticate a returning user
+- an authenticated endpoint 
+- passwords in the database encrypted with bcrypt
+- API validates
+Backend:
+- API route to register
 
-## View it live
 
-Every project should be deployed somewhere. Be sure to include the link to the deployed project so that the viewer can click around and see what it's all about.
+## :chart_with_upwards_trend: Future improvements
+
+
+## :robot: Tech used 
+- JavaScript
+- mongoose
+- Postman
+- MongoDB
+- Mongo Atlas
+
+## :eyes: View it live
+- Backend: 
+- Frontend: 
