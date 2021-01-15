@@ -26,8 +26,6 @@ export const SignupForm = () => {
     const [password, setPassword] = useState('');
     const validEmail = { pattern: "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$"}
     const signupError = useSelector((store) => store.user.login.statusMessage);
-    /* const errorMessage = new Error("Sorry, could not signup user") */
-
 
     const handleSignupSuccess = (signupResponse) => {
         dispatch(
@@ -67,8 +65,6 @@ export const SignupForm = () => {
         })
         .then((response) => {
             if (!response.ok) {
-                /* throw errorMessage; */
-                // eslint-disable-next-line
                 throw 'Sorry, could not signup user';
             }
             return response.json();
