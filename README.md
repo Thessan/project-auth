@@ -29,5 +29,5 @@ Backend:
 - Mongo Atlas
 
 ## :eyes: View it live
-- Backend: 
-- Frontend: 
+- Backend: https://thessan-rebeka-auth-api.herokuapp.com
+- Frontend: https://thessan-rebeka-auth-api-frontend.netlify.app
