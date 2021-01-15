@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch} from 'react-redux'
+import { useDispatch, useSelector} from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
@@ -25,6 +25,8 @@ export const SignupForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const validEmail = { pattern: "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$"}
+    const signupError = useSelector((store) => store.user.login.statusMessage);
+
 
     const handleSignupSuccess = (signupResponse) => {
         dispatch(
@@ -113,6 +115,7 @@ export const SignupForm = () => {
             />
         </>
         <SignupButton />
+        {signupError && <p>{signupError}</p>}
         </FormContainer>
     </form>
     );

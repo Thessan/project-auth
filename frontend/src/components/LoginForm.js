@@ -6,6 +6,7 @@ import styled from 'styled-components'
 
 import {user} from '../reducers/user'
 import {LoginButton} from './LoginButton'
+import {UserMessage} from './UserMessage'
 
 const LOGIN_URL = 'http://thessan-rebeka-auth-api.herokuapp.com/sessions'
 
@@ -23,8 +24,12 @@ export const LoginForm = () => {
     const dispatch = useDispatch();
     const [username, setUsername] = useState(''); 
     const [password, setPassword] = useState('');
+    const accessToken = useSelector((store) => store.user.login.accessToken);
     const loginError = useSelector((store) => store.user.login.statusMessage);  //displays error message when login fails
     console.log(`Login error: ${loginError}`)
+
+/*     //get info about accessToken
+    const accessToken = useSelector((store) => store.user.login.accessToken); */
 
 
     const handleLoginSuccess = (loginResponse) => {
@@ -67,10 +72,17 @@ export const LoginForm = () => {
         .catch((err) => handleLoginFailed(err));
         console.log("Login function performed");
 
+        // if (accessToken) {
+        //     //hide the login form and show secret page
+        // } else {
+        //     return "Login failed."
+        // }
     }
+    if (!accessToken) {
 
     return (
     <form className={classes.root} onSubmit={onLogin} noValidate autoComplete="off">
+        {/* {!accessToken && */}
         <LoginContainer>
         <WelcomeContainer>
             Please login
@@ -100,9 +112,12 @@ export const LoginForm = () => {
         </LoginContainer>
     </form>
     );
-}
+    } else {
+        return <UserMessage />;
+    }
+};
 
-const ErrorText = styled.text`
+const ErrorText = styled.p`
 
 `
 

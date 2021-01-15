@@ -111,12 +111,13 @@ app.post('/sessions', async (request, response) => {
 });
 
 //Restricted endpoint, only accessible after user has logged in with valid username and access token
-app.post('/tweets', authenticateUser);
-app.post('/tweets', async (request, response) => {
-
+app.get('/sessions/:id/userMessage', authenticateUser);
+app.get('/sessions/:id/userMessage', async (request, response) => {
+  const userMessage = `${request.user.username}, Welcome, you made it!`
+  response.status(201).json(userMessage)
 });
 
-app.get('users/:id', async (request, response) => {
+app.get('sessions/:id', async (request, response) => {
   response.status(501).send();
 });
 
