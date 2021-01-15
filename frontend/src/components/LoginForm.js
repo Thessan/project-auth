@@ -27,6 +27,7 @@ export const LoginForm = () => {
     const [password, setPassword] = useState('');
     const accessToken = useSelector((store) => store.user.login.accessToken);
     const loginError = useSelector((store) => store.user.login.statusMessage);  //displays error message when login fails
+    const errorMessage = new Error("Sorry, could not login user")
     console.log(`Login error: ${loginError}`)
 
     const handleLoginSuccess = (loginResponse) => {
@@ -61,7 +62,7 @@ export const LoginForm = () => {
         })
         .then((response) => {
             if (!response.ok) {
-                throw 'Sorry, could not login user';
+                throw errorMessage;
             }
             return response.json();
         })
