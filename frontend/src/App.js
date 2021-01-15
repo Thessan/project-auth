@@ -7,7 +7,6 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import {SignupForm} from './components/SignupForm'
 import {LoginHere} from './components/LoginHere'
 import {LoginForm} from './components/LoginForm'
-import {GoBack} from './components/GoBack'
 import {user} from './reducers/user'
 
 const reducer = combineReducers({ user: user.reducer });
@@ -28,7 +27,6 @@ export const App = () => {
 
               <Route path="/sessions" exact>
                 <LoginForm />
-                <GoBack />
               </Route>
           </Wrapper>
         </Switch>

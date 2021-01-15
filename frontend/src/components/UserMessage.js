@@ -1,20 +1,15 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
-import { user } from '../reducers/user';
-
-
+import {LogoutButton} from './LogoutButton'
 
 export const UserMessage = () => {
     const [username, setUsername] = useState("");
     const accessToken = useSelector((store) => store.user.login.accessToken);
     const userId = useSelector((store) => store.user.login.userId);
-    const dispatch = useDispatch();
     const AUTH_URL =`http://thessan-rebeka-auth-api.herokuapp.com/sessions/${userId}/userMessage`;
     
-    const handleLogout = () => {
-    dispatch(user.actions.logout());
-    };
+
     console.log(accessToken);
 
     fetch(AUTH_URL, {
@@ -31,7 +26,7 @@ export const UserMessage = () => {
         <div>
         <h1>Welcome {username} you are logged in!</h1>
         </div>
-        <button onClick={handleLogout}>Log Out</button>
+        <LogoutButton />
     </>
     );
 };
