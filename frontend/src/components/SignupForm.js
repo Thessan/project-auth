@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import {user} from '../reducers/user'
 import {SignupButton} from './SignupButton'
 
-const SIGNUP_URL = 'http://thessan-rebeka-auth-api.herokuapp.com/users'
+const SIGNUP_URL = 'https://thessan-rebeka-auth-api.herokuapp.com/users'
 
 const useStyles = makeStyles((theme) => ({
     root: {

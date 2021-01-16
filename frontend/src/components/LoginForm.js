@@ -9,7 +9,7 @@ import {LoginButton} from './LoginButton'
 import {UserMessage} from './UserMessage'
 import {GoBack} from 'components/GoBack'
 
-const LOGIN_URL = 'http://thessan-rebeka-auth-api.herokuapp.com/sessions'
+const LOGIN_URL = 'https://thessan-rebeka-auth-api.herokuapp.com/sessions'
 
 const useStyles = makeStyles((theme) => ({
     root: {
