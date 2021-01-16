@@ -4,18 +4,18 @@ import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
 
-import {user} from '../reducers/user'
-import {LoginButton} from './LoginButton'
-import {UserMessage} from './UserMessage'
-import {GoBack} from 'components/GoBack'
+import { user } from '../reducers/user'
+import { LoginButton } from './LoginButton'
+import { UserMessage } from './UserMessage'
+import { GoBack } from 'components/GoBack'
 
 const LOGIN_URL = 'https://thessan-rebeka-auth-api.herokuapp.com/sessions'
 
 const useStyles = makeStyles((theme) => ({
     root: {
         '& .MuiTextField-root': {
-        margin: theme.spacing(1),
-        width: '25ch',
+            margin: theme.spacing(1),
+            width: '25ch',
         },
     },
 }));
@@ -23,11 +23,11 @@ const useStyles = makeStyles((theme) => ({
 export const LoginForm = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [username, setUsername] = useState(''); 
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const accessToken = useSelector((store) => store.user.login.accessToken);
     const loginError = useSelector((store) => store.user.login.statusMessage);  //displays error message when login fails
-    const errorMessage = new Error("Sorry, could not login user")
+    // const errorMessage = new Error("Sorry, could not login user")
     console.log(`Login error: ${loginError}`)
 
     const handleLoginSuccess = (loginResponse) => {
@@ -37,18 +37,18 @@ export const LoginForm = () => {
         dispatch(user.actions.setUserId({ userId: loginResponse.userId }));
         dispatch(user.actions.setStatusMessage({ statusMessage: 'Login success' }));
     };
-    
+
     const handleLoginFailed = (loginFailed) => {
         dispatch(user.actions.setAccessToken({ accessToken: null }));
         dispatch(user.actions.setStatusMessage({ statusMessage: loginFailed }));
     }
 
     const onUsernameLoginChange = (event) => {
-    setUsername(event.target.value);
+        setUsername(event.target.value);
     };
 
     const onPasswordLoginChange = (event) => {
-    setPassword(event.target.value);
+        setPassword(event.target.value);
     };
 
     //fetch on login
@@ -56,56 +56,58 @@ export const LoginForm = () => {
         event.preventDefault();
 
         fetch(LOGIN_URL, {
-        method: 'POST',
-        body: JSON.stringify({ username, password }),
-        headers: { 'Content-Type': 'application/json' },
+            method: 'POST',
+            body: JSON.stringify({ username, password }),
+            headers: { 'Content-Type': 'application/json' },
         })
-        .then((response) => {
-            if (!response.ok) {
-                throw errorMessage;
-            }
-            return response.json();
-        })
-        .then((json) => handleLoginSuccess(json))
-        .catch((err) => handleLoginFailed(err));
+            .then((response) => {
+                if (!response.ok) {
+
+                    // eslint-disable-next-line
+                    throw "Sorry, could not login user";
+                }
+                return response.json();
+            })
+            .then((json) => handleLoginSuccess(json))
+            .catch((err) => handleLoginFailed(err));
         console.log("Login function performed");
         setUsername("") //when logging in username and password input field will be reset
         setPassword("")
     }
     if (!accessToken) {
 
-    return (
-    <form className={classes.root} onSubmit={onLogin} noValidate autoComplete="off">
-        <LoginContainer>
-        <WelcomeContainer>
-            Please login
+        return (
+            <form className={classes.root} onSubmit={onLogin} noValidate autoComplete="off">
+                <LoginContainer>
+                    <WelcomeContainer>
+                        Please login
         </WelcomeContainer>
-        <>
-            <TextField
-            id="UsernameLogin"
-            label="Username"
-            value={username}
-            onChange={onUsernameLoginChange}
-            variant="outlined"
-            />
-        </>
-        
-        <>
-            <TextField
-            id="PasswordLogin"
-            label="Password"
-            value={password}    
-            onChange={onPasswordLoginChange}
-            variant="outlined"
-            type="password" // to hide the input while typing
-            />
-        </>
-            <LoginButton />
-            {loginError && <ErrorText>{loginError}</ErrorText>}
-            <GoBack />
-        </LoginContainer>
-    </form>
-    );
+                    <>
+                        <TextField
+                            id="UsernameLogin"
+                            label="Username"
+                            value={username}
+                            onChange={onUsernameLoginChange}
+                            variant="outlined"
+                        />
+                    </>
+
+                    <>
+                        <TextField
+                            id="PasswordLogin"
+                            label="Password"
+                            value={password}
+                            onChange={onPasswordLoginChange}
+                            variant="outlined"
+                            type="password" // to hide the input while typing
+                        />
+                    </>
+                    <LoginButton />
+                    {loginError && <ErrorText>{loginError}</ErrorText>}
+                    <GoBack />
+                </LoginContainer>
+            </form>
+        );
     } else {
         return <UserMessage />;
     }
