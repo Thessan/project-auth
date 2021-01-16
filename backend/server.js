@@ -34,18 +34,18 @@ const userSchema = new mongoose.Schema({
   }
 })
 
-userSchema.pre("save", async function(next) {
+userSchema.pre("save", async function (next) {
   const user = this;
 
-if(!user.isModified('password')){
-  return next();
-}
+  if (!user.isModified('password')) {
+    return next();
+  }
 
-//Hash the password, after the validation of sign up details
-const salt = bcrypt.genSaltSync();
-user.password = bcrypt.hashSync(user.password, salt);
+  //Hash the password, after the validation of sign up details
+  const salt = bcrypt.genSaltSync();
+  user.password = bcrypt.hashSync(user.password, salt);
 
-next();
+  next();
 })
 
 const User = mongoose.model('User', userSchema);
@@ -57,7 +57,9 @@ const app = express()
 
 //Function that expects the users access token and validate access to restricted endpoints
 const authenticateUser = async (request, response, next) => {
-  const user = await User.findOne({accessToken: request.header('Authorization')});
+
+  const user = await User.findOne({ accessToken: request.header('Authorization') });
+
   if (user) {
     request.user = user;
     next();
@@ -70,6 +72,17 @@ const authenticateUser = async (request, response, next) => {
 app.use(cors())
 app.use(bodyParser.json())
 
+
+//middleware function
+app.use((req, res, next) => {
+  if (mongoose.connection.readyState === 1) {
+    next()
+  } else {
+    res.status(503).json({ error: 'Service unavailable' })
+  }
+})
+
+
 //Main page
 app.get('/', async (request, response) => {
   response.send('Welcome')
@@ -77,20 +90,22 @@ app.get('/', async (request, response) => {
 
 
 //Sign up
-//This endpoint register the user & put it in the database
+//This endpoint registers the user & put it in the database
 app.post('/users', async (request, response) => {
   try {
     const { username, email, password } = request.body;
+
     //Const user creates a new user in the database and stores username, email and the encrypted password
-    const user = await new User({ 
+    const user = await new User({
       username,
       email,
       password,
     }).save();
+
     response.status(200).json({ userID: user._id, accessToken: user.accessToken }); //Sign up success
   }
   catch (err) {
-    response.status(400).json({ message: 'Sorry, could not create user', errors: err});
+    response.status(400).json({ message: 'Sorry, could not create user', errors: err });
   }
 })
 
@@ -98,8 +113,10 @@ app.post('/users', async (request, response) => {
 //This endpoint expects username and password from already existing users
 app.post('/sessions', async (request, response) => {
   try {
+
     const { username, password } = request.body;
     const user = await User.findOne({ username });
+
     if (user && bcrypt.compareSync(password, user.password)) {
       response.status(200).json({ userId: user._id, accessToken: user.accessToken }); //Success
     } else {
@@ -113,7 +130,9 @@ app.post('/sessions', async (request, response) => {
 //Restricted endpoint, only accessible after user has logged in with valid username and access token
 app.get('/sessions/:id/userMessage', authenticateUser);
 app.get('/sessions/:id/userMessage', async (request, response) => {
+
   const userMessage = `Welcome, ${request.user.username}, you've made it!`
+
   response.status(201).json(userMessage)
 });
 

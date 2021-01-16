@@ -19,14 +19,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const SignupForm = () => {
+
     const dispatch = useDispatch();
     const classes = useStyles();
+
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
     const validEmail = { pattern: "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$" }
+
     const signupError = useSelector((store) => store.user.login.statusMessage);
-    // const errorMessage = new Error("Sorry, could not signup user")
+
 
     const handleSignupSuccess = (signupResponse) => {
         dispatch(
@@ -36,27 +40,30 @@ export const SignupForm = () => {
         dispatch(user.actions.setStatusMessage({ statusMessage: 'Signup success' }));
     };
 
+
     const handleSignupFailed = (signupError) => {
         dispatch(user.actions.setAccessToken({ accessToken: null }));
         dispatch(user.actions.setStatusMessage({ statusMessage: signupError }));
     };
 
+
     const onUsernameChange = (event) => {
         setUsername(event.target.value);
     };
-    console.log(`Username: ${username}`);
+
 
     const onEmailChange = (event) => {
         setEmail(event.target.value);
     };
-    console.log(`Email: ${email}`);
+
 
     const onPasswordChange = (event) => {
         setPassword(event.target.value);
     };
-    console.log(`Password: ${password}`);
+
 
     const onSignup = (event) => {
+
         event.preventDefault();
 
         fetch(SIGNUP_URL, {
@@ -73,7 +80,6 @@ export const SignupForm = () => {
             })
             .then((json) => handleSignupSuccess(json))
             .catch((err) => handleSignupFailed(err));
-        console.log("Signup function performed");
     }
 
     return (
@@ -82,39 +88,37 @@ export const SignupForm = () => {
                 <WelcomeContainer>
                     Welcome!
             </WelcomeContainer>
-                <>
-                    <TextField
-                        id="Username"
-                        label="Username"
-                        value={username}
-                        onChange={onUsernameChange}
-                        variant="outlined"
-                    />
-                </>
 
-                <>
-                    <TextField
-                        required id="standard-default"
-                        label="Email"
-                        value={email}
-                        onChange={onEmailChange}
-                        variant="outlined"
-                        inputProps={validEmail}
-                        helperText={email === "" ? 'e.g hello@hello.com' : ' '}
-                    />
-                </>
+                <TextField
+                    id="Username"
+                    label="Username"
+                    value={username}
+                    onChange={onUsernameChange}
+                    variant="outlined"
+                />
 
-                <>
-                    <TextField
-                        id="Password"
-                        label="Password"
-                        value={password}
-                        onChange={onPasswordChange}
-                        variant="outlined"
-                        type="password" // to hide the input while typing
-                        helperText={password === "" ? 'min 5 characters, max 12' : ' '}
-                    />
-                </>
+
+                <TextField
+                    required id="standard-default"
+                    label="Email"
+                    value={email}
+                    onChange={onEmailChange}
+                    variant="outlined"
+                    inputProps={validEmail}
+                    helperText={email === "" ? 'e.g hello@hello.com' : ' '}
+                />
+
+
+                <TextField
+                    id="Password"
+                    label="Password"
+                    value={password}
+                    onChange={onPasswordChange}
+                    variant="outlined"
+                    type="password" // to hide the input while typing
+                    helperText={password === "" ? 'min 5 characters, max 12' : ' '}
+                />
+
                 <SignupButton />
                 {signupError && <p>{signupError}</p>}
             </FormContainer>

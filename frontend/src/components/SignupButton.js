@@ -6,10 +6,10 @@ export const SignupButton = () => {
     return (
         <ButtonContainer>
             <Button
-                variant="contained" 
+                variant="contained"
                 color="primary"
                 type="submit">
-                Sign up!
+                Sign up
             </Button>
         </ButtonContainer>
     )

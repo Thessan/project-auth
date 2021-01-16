@@ -9,7 +9,6 @@ import { LoginButton } from './LoginButton'
 import { UserMessage } from './UserMessage'
 import { GoBack } from 'components/GoBack'
 
-const LOGIN_URL = 'https://thessan-rebeka-auth-api.herokuapp.com/sessions'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,14 +20,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const LoginForm = () => {
+
     const classes = useStyles();
     const dispatch = useDispatch();
+
+    const LOGIN_URL = 'https://thessan-rebeka-auth-api.herokuapp.com/sessions'
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
     const accessToken = useSelector((store) => store.user.login.accessToken);
     const loginError = useSelector((store) => store.user.login.statusMessage);  //displays error message when login fails
-    // const errorMessage = new Error("Sorry, could not login user")
-    console.log(`Login error: ${loginError}`)
+
 
     const handleLoginSuccess = (loginResponse) => {
         dispatch(
@@ -38,18 +41,23 @@ export const LoginForm = () => {
         dispatch(user.actions.setStatusMessage({ statusMessage: 'Login success' }));
     };
 
+
     const handleLoginFailed = (loginFailed) => {
         dispatch(user.actions.setAccessToken({ accessToken: null }));
         dispatch(user.actions.setStatusMessage({ statusMessage: loginFailed }));
     }
 
+
     const onUsernameLoginChange = (event) => {
         setUsername(event.target.value);
     };
 
+
     const onPasswordLoginChange = (event) => {
         setPassword(event.target.value);
     };
+
+
 
     //fetch on login
     const onLogin = (event) => {
@@ -70,10 +78,13 @@ export const LoginForm = () => {
             })
             .then((json) => handleLoginSuccess(json))
             .catch((err) => handleLoginFailed(err));
-        console.log("Login function performed");
+
         setUsername("") //when logging in username and password input field will be reset
         setPassword("")
     }
+
+
+
     if (!accessToken) {
 
         return (
@@ -82,28 +93,26 @@ export const LoginForm = () => {
                     <WelcomeContainer>
                         Please login
                     </WelcomeContainer>
-                    <>
-                        <TextField
-                            id="UsernameLogin"
-                            label="Username"
-                            value={username}
-                            onChange={onUsernameLoginChange}
-                            variant="outlined"
-                        />
-                    </>
 
-                    <>
-                        <TextField
-                            id="PasswordLogin"
-                            label="Password"
-                            value={password}
-                            onChange={onPasswordLoginChange}
-                            variant="outlined"
-                            type="password" // to hide the input while typing
-                        />
-                    </>
+                    <TextField
+                        id="UsernameLogin"
+                        label="Username"
+                        value={username}
+                        onChange={onUsernameLoginChange}
+                        variant="outlined"
+                    />
+
+                    <TextField
+                        id="PasswordLogin"
+                        label="Password"
+                        value={password}
+                        onChange={onPasswordLoginChange}
+                        variant="outlined"
+                        type="password" // to hide the input while typing
+                    />
+
                     <LoginButton />
-                    {loginError && <ErrorText>{loginError}</ErrorText>}
+                    {loginError && <ErrorMessage>{loginError}</ErrorMessage>}
                     <GoBack />
                 </LoginContainer>
             </form>
@@ -113,7 +122,7 @@ export const LoginForm = () => {
     }
 };
 
-const ErrorText = styled.p`
+const ErrorMessage = styled.p`
 
 `
 
