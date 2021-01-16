@@ -113,7 +113,7 @@ app.post('/sessions', async (request, response) => {
 //Restricted endpoint, only accessible after user has logged in with valid username and access token
 app.get('/sessions/:id/userMessage', authenticateUser);
 app.get('/sessions/:id/userMessage', async (request, response) => {
-  const userMessage = `${request.user.username}, Welcome, you made it!`
+  const userMessage = `Welcome, ${request.user.username}, you've made it!`
   response.status(201).json(userMessage)
 });
 
