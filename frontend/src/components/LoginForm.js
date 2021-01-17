@@ -10,6 +10,7 @@ import { UserMessage } from './UserMessage'
 import { GoBack } from 'components/GoBack'
 
 
+//Imported with Material UI 
 const useStyles = makeStyles((theme) => ({
     root: {
         '& .MuiTextField-root': {
@@ -29,9 +30,8 @@ export const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const accessToken = useSelector((store) => store.user.login.accessToken);
-    const loginError = useSelector((store) => store.user.login.statusMessage);  //displays error message when login fails
-
+    const accessToken = useSelector((store) => store.user.login.accessToken);   //To access the users Access Token
+    const loginError = useSelector((store) => store.user.login.statusMessage);  //To displays error message when login fails
 
     const handleLoginSuccess = (loginResponse) => {
         dispatch(
@@ -41,25 +41,20 @@ export const LoginForm = () => {
         dispatch(user.actions.setStatusMessage({ statusMessage: 'Login success' }));
     };
 
-
     const handleLoginFailed = (loginFailed) => {
         dispatch(user.actions.setAccessToken({ accessToken: null }));
         dispatch(user.actions.setStatusMessage({ statusMessage: loginFailed }));
     }
 
-
     const onUsernameLoginChange = (event) => {
         setUsername(event.target.value);
     };
-
 
     const onPasswordLoginChange = (event) => {
         setPassword(event.target.value);
     };
 
-
-
-    //fetch on login
+    //Fetch login
     const onLogin = (event) => {
         event.preventDefault();
 
@@ -79,11 +74,9 @@ export const LoginForm = () => {
             .then((json) => handleLoginSuccess(json))
             .catch((err) => handleLoginFailed(err));
 
-        setUsername("") //when logging in username and password input field will be reset
-        setPassword("")
+        setUsername("") //Will reset username input field after login
+        setPassword("") //Will reset password input field after login
     }
-
-
 
     if (!accessToken) {
 
@@ -108,23 +101,19 @@ export const LoginForm = () => {
                         value={password}
                         onChange={onPasswordLoginChange}
                         variant="outlined"
-                        type="password" // to hide the input while typing
+                        type="password" //To hide the input while typing
                     />
 
                     <LoginButton />
-                    {loginError && <ErrorMessage>{loginError}</ErrorMessage>}
+                    {loginError && <p>{loginError}</p>}
                     <GoBack />
                 </LoginContainer>
             </form>
         );
     } else {
-        return <UserMessage />;
+        return <UserMessage />; //If login is successful, display userMessage
     }
 };
-
-const ErrorMessage = styled.p`
-
-`
 
 const LoginContainer = styled.div`
     display: flex;

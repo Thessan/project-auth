@@ -9,6 +9,7 @@ import { SignupButton } from './SignupButton'
 
 const SIGNUP_URL = 'https://thessan-rebeka-auth-api.herokuapp.com/users'
 
+//Imported from Material UI
 const useStyles = makeStyles((theme) => ({
     root: {
         '& .MuiTextField-root': {
@@ -27,10 +28,9 @@ export const SignupForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const validEmail = { pattern: "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$" }
+    const validEmail = { pattern: "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$" } //Email has to have the pattern of xxx@xxx.xx
 
     const signupError = useSelector((store) => store.user.login.statusMessage);
-
 
     const handleSignupSuccess = (signupResponse) => {
         dispatch(
@@ -40,28 +40,24 @@ export const SignupForm = () => {
         dispatch(user.actions.setStatusMessage({ statusMessage: 'Signup success' }));
     };
 
-
     const handleSignupFailed = (signupError) => {
         dispatch(user.actions.setAccessToken({ accessToken: null }));
         dispatch(user.actions.setStatusMessage({ statusMessage: signupError }));
     };
 
-
     const onUsernameChange = (event) => {
         setUsername(event.target.value);
     };
-
 
     const onEmailChange = (event) => {
         setEmail(event.target.value);
     };
 
-
     const onPasswordChange = (event) => {
         setPassword(event.target.value);
     };
 
-
+    //Fetch signup
     const onSignup = (event) => {
 
         event.preventDefault();
@@ -97,7 +93,6 @@ export const SignupForm = () => {
                     variant="outlined"
                 />
 
-
                 <TextField
                     required id="standard-default"
                     label="Email"
@@ -108,14 +103,13 @@ export const SignupForm = () => {
                     helperText={email === "" ? 'e.g hello@hello.com' : ' '}
                 />
 
-
                 <TextField
                     id="Password"
                     label="Password"
                     value={password}
                     onChange={onPasswordChange}
                     variant="outlined"
-                    type="password" // to hide the input while typing
+                    type="password" //To hide the input while typing
                     helperText={password === "" ? 'min 5 characters, max 12' : ' '}
                 />
 

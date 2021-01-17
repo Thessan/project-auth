@@ -5,8 +5,6 @@ import { useDispatch } from 'react-redux'
 
 import { user } from "../reducers/user"
 
-
-
 export const LogoutButton = () => {
 
     const dispatch = useDispatch();

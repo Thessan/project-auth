@@ -51,7 +51,7 @@ userSchema.pre("save", async function (next) {
 const User = mongoose.model('User', userSchema);
 
 
-//Defines the port the app will run on.
+//Defines the port the app will run on
 const port = process.env.PORT || 8080
 const app = express()
 
@@ -73,7 +73,7 @@ app.use(cors())
 app.use(bodyParser.json())
 
 
-//middleware function
+//Middleware function
 app.use((req, res, next) => {
   if (mongoose.connection.readyState === 1) {
     next()
@@ -82,20 +82,18 @@ app.use((req, res, next) => {
   }
 })
 
-
 //Main page
 app.get('/', async (request, response) => {
   response.send('Welcome')
 })
 
-
-//Sign up
+//SIGN UP ENDPOINT
 //This endpoint registers the user & put it in the database
 app.post('/users', async (request, response) => {
   try {
     const { username, email, password } = request.body;
 
-    //Const user creates a new user in the database and stores username, email and the encrypted password
+    //This const creates a new user and stores username, email and the encrypted password in the database
     const user = await new User({
       username,
       email,
@@ -105,11 +103,11 @@ app.post('/users', async (request, response) => {
     response.status(200).json({ userID: user._id, accessToken: user.accessToken }); //Sign up success
   }
   catch (err) {
-    response.status(400).json({ message: 'Sorry, could not create user', errors: err });
+    response.status(400).json({ message: 'Sorry, could not create user', errors: err }); // Sign up error
   }
 })
 
-// Login
+// LOGIN ENDPOINT
 //This endpoint expects username and password from already existing users
 app.post('/sessions', async (request, response) => {
   try {
@@ -120,10 +118,10 @@ app.post('/sessions', async (request, response) => {
     if (user && bcrypt.compareSync(password, user.password)) {
       response.status(200).json({ userId: user._id, accessToken: user.accessToken }); //Success
     } else {
-      throw 'Incorrect username or password'; // if user that's signed up is trying to login but login details are incorrect
+      throw 'Incorrect username or password'; //If user that's signed up is trying to login but login details are incorrect
     }
   } catch (err) {
-    response.status(404).json({ error: 'Sorry, user does not exist' }); // if a user that's not signed up is trying to login
+    response.status(404).json({ error: 'Sorry, user does not exist' }); //If a user that's not signed up is trying to login
   }
 });
 
@@ -140,7 +138,7 @@ app.get('sessions/:id', async (request, response) => {
   response.status(501).send();
 });
 
-// Start the server
+//Start the server
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`)
 })

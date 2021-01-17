@@ -4,8 +4,6 @@ import styled from 'styled-components'
 
 import { LogoutButton } from './LogoutButton'
 
-
-
 export const UserMessage = () => {
     const [message, setMessage] = useState("");
 
@@ -13,7 +11,6 @@ export const UserMessage = () => {
     const userId = useSelector((store) => store.user.login.userId);
 
     const AUTH_URL = `https://thessan-rebeka-auth-api.herokuapp.com/sessions/${userId}/userMessage`;
-
 
     fetch(AUTH_URL, {
         method: "GET",
@@ -33,6 +30,6 @@ export const UserMessage = () => {
 
 const Message = styled.h1`
     color: darkblue;
-    font-size: 25px;
     text-align: center;
+    padding: 5px;
 `
