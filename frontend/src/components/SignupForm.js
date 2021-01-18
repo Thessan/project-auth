@@ -76,6 +76,11 @@ export const SignupForm = () => {
             })
             .then((json) => handleSignupSuccess(json))
             .catch((err) => handleSignupFailed(err));
+
+            // To reset input fields after user clicks on Signup button
+            setUsername("") 
+            setEmail("") 
+            setPassword("") 
     }
 
     return (

@@ -73,9 +73,10 @@ export const LoginForm = () => {
             })
             .then((json) => handleLoginSuccess(json))
             .catch((err) => handleLoginFailed(err));
-
-        setUsername("") //Will reset username input field after login
-        setPassword("") //Will reset password input field after login
+        
+        // To reset input fields after user clicks on Login button
+        setUsername("")
+        setPassword("")
     }
 
     if (!accessToken) {

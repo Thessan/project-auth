@@ -129,7 +129,7 @@ app.post('/sessions', async (request, response) => {
 app.get('/sessions/:id/userMessage', authenticateUser);
 app.get('/sessions/:id/userMessage', async (request, response) => {
 
-  const userMessage = `Welcome, ${request.user.username}, you've made it!`
+  const userMessage = `Welcome, ${request.user.username}, you're now logged in!`
 
   response.status(201).json(userMessage)
 });
