@@ -54,6 +54,7 @@ const User = mongoose.model('User', userSchema);
 //Defines the port the app will run on
 const port = process.env.PORT || 8080
 const app = express()
+const listEndpoints = require('express-list-endpoints')
 
 //Function that expects the users access token and validate access to restricted endpoints
 const authenticateUser = async (request, response, next) => {
@@ -74,17 +75,22 @@ app.use(bodyParser.json())
 
 
 //Middleware function
-app.use((req, res, next) => {
+app.use((request, response, next) => {
   if (mongoose.connection.readyState === 1) {
     next()
   } else {
-    res.status(503).json({ error: 'Service unavailable' })
+    response.status(503).json({ error: 'Service unavailable' })
   }
 })
 
 //Main page
 app.get('/', async (request, response) => {
-  response.send('Welcome')
+  response.send('Welcome, see endpoints to our API below.')
+  if (response) {
+    response.status(200).send(listEndpoints(app))
+  } else {
+    response.status(404).send("No endpoints found.")
+  }
 })
 
 //SIGN UP ENDPOINT
