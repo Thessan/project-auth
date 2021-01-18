@@ -1,5 +1,5 @@
 # Project Auth
-Pair programming proejct by Therése Larsson & Rebeka Kovačič 
+Pair programming project by Therése Larsson & Rebeka Kovačič 
 
 A fullstack project including signup and login forms, API with authentication and an authenticated endpoint with its content visible upon logging in. :closed_lock_with_key:   
 
