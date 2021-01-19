@@ -40,6 +40,7 @@ Backend:
 - Postman
 - MongoDB
 - Mongo Atlas
+- Material UI
 
 ## :eyes: View it live
 - Backend: https://thessan-rebeka-auth-api.herokuapp.com
