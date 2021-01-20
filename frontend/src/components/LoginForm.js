@@ -9,7 +9,6 @@ import { LoginButton } from './LoginButton'
 import { UserMessage } from './UserMessage'
 import { GoBack } from 'components/GoBack'
 
-
 //Imported with Material UI 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -112,7 +111,7 @@ export const LoginForm = () => {
             </form>
         );
     } else {
-        return <UserMessage />; //If login is successful, display userMessage
+        return <UserMessage /> //If login is successful, display userMessage
     }
 };
 
