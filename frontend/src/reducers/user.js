@@ -5,6 +5,7 @@ const initialState = {
     accessToken: null,
     userId: 0,
     statusMessage: "",
+    isLoggedIn: false
     },
 };
 
@@ -25,6 +26,7 @@ export const user = createSlice({
             state.login.statusMessage = statusMessage;
         },
         logout: (state, action) => {
+            state.login.isLoggedIn = false;
             state.login.userId = 0;
             state.login.accessToken = null;
             state.login.statusMessage = "";
