@@ -106,7 +106,7 @@ app.post('/users', async (request, response) => {
       password,
     }).save();
 
-    response.status(200).json({ userID: user._id }); //Sign up success
+    response.status(200).json({ userID: user._id }); //Sign up success & user is not able to be logged in right after that
   }
   catch (err) {
     response.status(400).json({ message: 'Sorry, could not create user', errors: err }); // Sign up error
@@ -133,14 +133,14 @@ app.post('/sessions', async (request, response) => {
 
 //Restricted endpoint, only accessible after user has logged in with valid username and access token
 app.get('/sessions/:id/userMessage', authenticateUser);
-app.get('/sessions/:id/userMessage', async (request, response) => {
+app.get('/sessions/:id/userMessage', (request, response) => {
 
   const userMessage = `Welcome, ${request.user.username}, you're now logged in!`
 
   response.status(201).json(userMessage)
 });
 
-app.get('sessions/:id', async (request, response) => {
+app.get('sessions/:id', (request, response) => {
   response.status(501).send();
 });
 
