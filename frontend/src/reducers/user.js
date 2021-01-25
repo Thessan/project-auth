@@ -2,10 +2,9 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     login: {
-    accessToken: null,
+    accessToken: localStorage.accessToken || null,
     userId: 0,
     statusMessage: "",
-    /* isLoggedIn: false */
     },
 };
 
@@ -16,6 +15,7 @@ export const user = createSlice({
         setAccessToken: (state, action) => {
             const { accessToken } = action.payload;
             state.login.accessToken = accessToken;
+            localStorage.setItem('accessToken', accessToken)
         },
         setUserId: (state, action) => {
             const { userId } = action.payload;
@@ -26,10 +26,10 @@ export const user = createSlice({
             state.login.statusMessage = statusMessage;
         },
         logout: (state, action) => {
-            // state.login.isLoggedIn = false;
             state.login.userId = 0;
             state.login.accessToken = null;
             state.login.statusMessage = "";
+            localStorage.removeItem('accessToken')
         },
     } 
 })

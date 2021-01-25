@@ -138,7 +138,6 @@ app.get('/sessions/:id/userMessage', async (request, response) => {
   const userMessage = `Welcome, ${request.user.username}, you're now logged in!`
 
   response.status(201).json(userMessage)
-  /* response.status(201).json({message: `Welcome, ${request.user.username}, you're now logged in!`}) */
 });
 
 app.get('sessions/:id', async (request, response) => {

@@ -33,9 +33,6 @@ export const SignupForm = () => {
     const signupError = useSelector((store) => store.user.login.statusMessage);
 
     const handleSignupSuccess = (signupResponse) => {
-        /* dispatch(
-            user.actions.setAccessToken({ accessToken: signupResponse.accessToken })
-        ); */
         dispatch(user.actions.setUserId({ userId: signupResponse.userId }));
         dispatch(user.actions.setStatusMessage({ statusMessage: 'Signup success' }));
     };
