@@ -84,8 +84,8 @@ app.use((request, response, next) => {
 })
 
 //Main page
-app.get('/', async (request, response) => {
-  response.send('Welcome, see endpoints to our API below.')
+app.get('/', (request, response) => {
+
   if (response) {
     response.status(200).send(listEndpoints(app))
   } else {
