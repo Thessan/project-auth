@@ -6,6 +6,7 @@ import { LogoutButton } from './LogoutButton'
 
 export const UserMessage = () => {
     const [message, setMessage] = useState("");
+    console.log(message)
 
     const accessToken = useSelector((store) => store.user.login.accessToken);
     const userId = useSelector((store) => store.user.login.userId);
@@ -18,7 +19,9 @@ export const UserMessage = () => {
     })
         .then((response) => response.json())
         .then((json) => {
-            setMessage(json);
+            // console.log(`Json in usermessage: ${json.message}`)
+            // setMessage(json.message);
+            setMessage(json)
         });
     return (
         <>

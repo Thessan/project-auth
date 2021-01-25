@@ -106,7 +106,7 @@ app.post('/users', async (request, response) => {
       password,
     }).save();
 
-    response.status(200).json({ userID: user._id, accessToken: user.accessToken }); //Sign up success
+    response.status(200).json({ userID: user._id }); //Sign up success
   }
   catch (err) {
     response.status(400).json({ message: 'Sorry, could not create user', errors: err }); // Sign up error
@@ -138,6 +138,7 @@ app.get('/sessions/:id/userMessage', async (request, response) => {
   const userMessage = `Welcome, ${request.user.username}, you're now logged in!`
 
   response.status(201).json(userMessage)
+  /* response.status(201).json({message: `Welcome, ${request.user.username}, you're now logged in!`}) */
 });
 
 app.get('sessions/:id', async (request, response) => {

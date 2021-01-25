@@ -32,13 +32,11 @@ export const LoginForm = () => {
 
     const accessToken = useSelector((store) => store.user.login.accessToken);   //To access the users Access Token
     const loginError = useSelector((store) => store.user.login.statusMessage);  //To displays error message when login fails
-    const isLoggedIn = useSelector((store) => store.user.login.isLoggedIn);
-    
+
     const handleLoginSuccess = (loginResponse) => {
         dispatch(
             user.actions.setAccessToken({ accessToken: loginResponse.accessToken })
         );
-        dispatch(user.actions.setIsLoggedIn({ isLoggedIn: true }));
         dispatch(user.actions.setUserId({ userId: loginResponse.userId }));
         dispatch(user.actions.setStatusMessage({ statusMessage: 'Login success' }));
     };
@@ -81,7 +79,7 @@ export const LoginForm = () => {
         setPassword("")
     }
 
-    if (!accessToken && !isLoggedIn) {
+    if (!accessToken) {
 
         return (
             <form className={classes.root} onSubmit={onLogin} noValidate autoComplete="off">
